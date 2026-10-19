@@ -250,7 +250,7 @@ const menu = {
   ],
 };
 
-const routeNav = {
+const mainRoute = {
   1: "Menu",
   2: "Riwayat Pesanan",
   3: "Exit",
@@ -260,19 +260,18 @@ const readline = require("readline");
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
-  prompt: "PizzaBoxx> ",
+  // prompt: "PizzaBoxx> ",
 });
 
-const showMessage = () => {
+const showMessage = (m) => {
   console.log(`${"=".repeat(30)}`);
-  console.log("Selamat Datang di PizzaBoxx");
-  console.log("Ada yang bisa kami bantu?");
+  console.log(m);
   console.log(`${"=".repeat(30)}`);
 };
 
-const showRoute = () => {
+const showRoute = (r) => {
   console.log("");
-  for (const [key, value] of Object.entries(routeNav)) {
+  for (const [key, value] of Object.entries(r)) {
     console.log(`${key}: ${value}`);
   }
   console.log("");
@@ -300,22 +299,124 @@ const showMenu = (menu, title) => {
         style: "currency",
         currency: "IDR",
       })
-      .padEnd(20, " ")} ${i + 1}`;
+      .padEnd(20, " ")} ${menu[i].id}`;
     console.log(menuLine);
     menuLine = "";
   }
   console.log("");
 };
 
-function main() {
-  showMessage();
-  showRoute();
-  rl.prompt();
-  rl.on("line", (line) => {
-    const input = line.trim();
-    showMenu(menuMinuman, "Minuman");
-    rl.prompt();
+function askQuestion(query) {
+  return new Promise((resolve) => {
+    rl.question(query, resolve);
   });
 }
 
-main();
+function checkout(data) {
+  console.log("");
+  console.log(`${"=".repeat(30)} Checkout ${"=".repeat(30)}`);
+  console.log("");
+  let cetak = "";
+  let total = 0;
+  for (let i = 0; i < data.length; i++) {
+    const hitungTotal = data[i].quantity * data[i].price;
+    total += hitungTotal;
+    cetak += `${data[i].name.padEnd(30, " ")} ${data[i].quantity.toString().padStart(3, " ")}x   ${data[
+      i
+    ].price
+      .toLocaleString("id-ID")
+      .padEnd(
+        20,
+        " ",
+      )} ${hitungTotal.toLocaleString("id-ID").padStart(10, " ")}`;
+    console.log(cetak);
+    cetak = "";
+  }
+  console.log("");
+  console.log("_".repeat(70));
+  console.log("");
+  console.log(
+    `Total  ${total
+      .toLocaleString("id-ID", {
+        style: "currency",
+        currency: "IDR",
+      })
+      .padStart(62, " ")}`,
+  );
+  console.log("");
+}
+
+async function main() {
+  let running = true;
+  let pesanan = [];
+  let history = [];
+
+  while (running) {
+    showMessage("Selamat Datang di PizzaBoxx");
+    showRoute(mainRoute);
+    const askMenu = await askQuestion("Ada yang bisa dibantu? ");
+    const input = askMenu.trim();
+    switch (input) {
+      case "1":
+        showMenu(menuMakanan, "Makanan");
+        const askMakan = await askQuestion("Mau makan apa? (Masukkan kode) ");
+        const pesananMakanan = menuMakanan.filter((m) => m.id === askMakan);
+        if (pesananMakanan.length === 0)
+          return console.log("Masukkan kode yang benar... ");
+
+        const askMakanQuantity = await askQuestion("Mau berapa banyak? ");
+
+        pesananMakanan[0].quantity = Number(askMakanQuantity);
+
+        pesanan = [...pesanan, ...pesananMakanan];
+        showMenu(menuMinuman, "Minuman");
+        const askMinuman = await askQuestion("Mau minum apa? (Masukkan kode) ");
+        const pesananMinuman = menuMinuman.filter((m) => m.id === askMinuman);
+
+        if (pesananMinuman.length === 0)
+          return console.log("Masukkan kode yang benar... ");
+
+        const askMinumQuantity = await askQuestion("Mau berapa banyak? ");
+
+        pesananMinuman[0].quantity = Number(askMinumQuantity);
+
+        pesanan = [...pesanan, ...pesananMinuman];
+
+        history = [...pesanan];
+
+        checkout(pesanan);
+        break;
+      case "2":
+        if (history.length === 0) {
+          console.log("Belom ada riwayat pemesanan");
+        } else {
+          console.log("Riwayat Pemesanan");
+          let cetak = "";
+          for (let i = 0; i < history.length; i++) {
+            cetak += `${history[i].quantity} ${history[i].name} \n`;
+          }
+          console.log(cetak);
+        }
+
+        break;
+      case "3":
+        running = false;
+        break;
+      default:
+        console.log("Maaf belom ada menu tersebut");
+    }
+    if (running) {
+      const pesanLagi = await askQuestion("Mau pesan lagi? (y/n) ");
+      if (pesanLagi.toLowerCase() === "n") {
+        running = false;
+      }
+    }
+  }
+}
+
+const handleExit = () => {
+  console.log("Terima Kasih...");
+  return rl.close();
+};
+
+main().finally(() => handleExit());
