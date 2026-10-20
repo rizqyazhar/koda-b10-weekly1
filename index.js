@@ -346,6 +346,37 @@ function checkout(data) {
   console.log("");
 }
 
+async function inputPesanan(menu, titleTable) {
+  showMenu(menu, titleTable);
+  let askMenu = await askQuestion(
+    `Mau ${titleTable.slice(0, 5).toLowerCase()} apa? (Masukkan kode) `,
+  );
+  const pesananMenu = menu.filter((m) => m.id === askMenu);
+  if (pesananMenu.length === 0) {
+    console.log("Masukkan kode yang benar... ");
+    askMenu = await askQuestion(
+      `Mau ${titleTable.slice(0, 5).toLowerCase()} apa? (Masukkan kode) `,
+    );
+  }
+
+  const askQuantity = await askQuestion("Mau berapa banyak? ");
+
+  pesananMenu[0].quantity = Number(askQuantity);
+
+  return pesananMenu;
+}
+
+function historyObject(isi) {
+  return {
+    pesanan: [isi],
+    waktuPesan: function () {
+      const date = new Date();
+      const getTime = date.toLocaleString().split(",");
+      return [getTime[0], getTime[1]];
+    },
+  };
+}
+
 async function main() {
   let running = true;
   let pesanan = [];
@@ -358,44 +389,38 @@ async function main() {
     const input = askMenu.trim();
     switch (input) {
       case "1":
-        showMenu(menuMakanan, "Makanan");
-        const askMakan = await askQuestion("Mau makan apa? (Masukkan kode) ");
-        const pesananMakanan = menuMakanan.filter((m) => m.id === askMakan);
-        if (pesananMakanan.length === 0)
-          return console.log("Masukkan kode yang benar... ");
-
-        const askMakanQuantity = await askQuestion("Mau berapa banyak? ");
-
-        pesananMakanan[0].quantity = Number(askMakanQuantity);
-
+        const pesananMakanan = await inputPesanan(menuMakanan, "Makanan");
         pesanan = [...pesanan, ...pesananMakanan];
-        showMenu(menuMinuman, "Minuman");
-        const askMinuman = await askQuestion("Mau minum apa? (Masukkan kode) ");
-        const pesananMinuman = menuMinuman.filter((m) => m.id === askMinuman);
-
-        if (pesananMinuman.length === 0)
-          return console.log("Masukkan kode yang benar... ");
-
-        const askMinumQuantity = await askQuestion("Mau berapa banyak? ");
-
-        pesananMinuman[0].quantity = Number(askMinumQuantity);
-
+        const pesananMinuman = await inputPesanan(menuMinuman, "Minuman");
         pesanan = [...pesanan, ...pesananMinuman];
 
-        history = [...pesanan];
+        console.log(pesanan);
 
+        const addHistory = historyObject(...pesanan);
+
+        console.log(addHistory);
+
+        history = [...history, addHistory];
         checkout(pesanan);
+        pesanan = [];
         break;
       case "2":
         if (history.length === 0) {
           console.log("Belom ada riwayat pemesanan");
         } else {
+          console.log("");
           console.log("Riwayat Pemesanan");
-          let cetak = "";
-          for (let i = 0; i < history.length; i++) {
-            cetak += `${history[i].quantity} ${history[i].name} \n`;
+          console.log("");
+          for (const item of history) {
+            console.log(`(${item.waktuPesan()[0]}) - ${item.waktuPesan()[1]}`);
+            console.log("-------------------------------");
+            item.pesanan.forEach((element) => {
+              console.log(
+                `${element.quantity.toString().padEnd(2, " ")}x ${element.name.padEnd(30, " ")} ${element.price.toLocaleString("id-ID")}`,
+              );
+            });
+            console.log("");
           }
-          console.log(cetak);
         }
 
         break;
