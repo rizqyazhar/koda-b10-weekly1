@@ -394,11 +394,7 @@ async function main() {
         const pesananMinuman = await inputPesanan(menuMinuman, "Minuman");
         pesanan = [...pesanan, ...pesananMinuman];
 
-        console.log(pesanan);
-
         const addHistory = historyObject(...pesanan);
-
-        console.log(addHistory);
 
         history = [...history, addHistory];
         checkout(pesanan);
