@@ -393,8 +393,7 @@ async function main() {
         pesanan = [...pesanan, ...pesananMakanan];
         const pesananMinuman = await inputPesanan(menuMinuman, "Minuman");
         pesanan = [...pesanan, ...pesananMinuman];
-
-        const addHistory = historyObject(...pesanan);
+        const addHistory = historyObject(pesanan);
 
         history = [...history, addHistory];
         checkout(pesanan);
@@ -410,7 +409,7 @@ async function main() {
           for (const item of history) {
             console.log(`(${item.waktuPesan()[0]}) - ${item.waktuPesan()[1]}`);
             console.log("-------------------------------");
-            item.pesanan.forEach((element) => {
+            item.pesanan.map((element) => {
               console.log(
                 `${element.quantity.toString().padEnd(2, " ")}x ${element.name.padEnd(30, " ")} ${element.price.toLocaleString("id-ID")}`,
               );
