@@ -368,7 +368,7 @@ async function inputPesanan(menu, titleTable) {
 
 function historyObject(isi) {
   return {
-    pesanan: [isi],
+    pesanan: isi,
     waktuPesan: function () {
       const date = new Date();
       const getTime = date.toLocaleString().split(",");
