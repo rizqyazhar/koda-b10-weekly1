@@ -277,13 +277,9 @@ const showRoute = (r) => {
   console.log("");
 };
 
-const menuMakanan = [
-  ...menu.makanan.pizza,
-  ...menu.makanan.pasta,
-  ...menu.makanan.other,
-  ...menu.makanan.appetizer,
-  ...menu.makanan.extraSauce,
-];
+const { pizza, pasta, other, appetizer, extraSauce } = menu.makanan;
+
+const menuMakanan = [...pizza, ...pasta, ...other, ...appetizer, ...extraSauce];
 
 const menuMinuman = [...menu.minuman];
 
