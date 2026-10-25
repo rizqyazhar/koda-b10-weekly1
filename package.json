@@ -1,0 +1,29 @@
+{
+  "name": "koda-b10-weekly1",
+  "version": "1.0.0",
+  "description": "Membuat program pemesanan makanan interaktif menggunakan Readline NodeJS",
+  "homepage": "https://github.com/rizqyazhar/koda-b10-weekly1#readme",
+  "bugs": {
+    "url": "https://github.com/rizqyazhar/koda-b10-weekly1/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rizqyazhar/koda-b10-weekly1.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node --watch ./index.js",
+    "start": "node ./index.js",
+    "lint": "eslint *.mjs *.js *.cjs",
+    "lint:fix": "eslint *.mjs *.js *.cjs --fix"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@stylistic/eslint-plugin": "^5.10.0",
+    "eslint": "^10.13.0",
+    "globals": "^17.13.0"
+  }
+}
