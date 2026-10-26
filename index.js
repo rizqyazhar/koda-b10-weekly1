@@ -4,13 +4,6 @@ const mainRoute = {
   3: "Exit",
 };
 
-const readline = require("readline");
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-  // prompt: "PizzaBoxx> ",
-});
-
 const showMessage = (m) => {
   console.log(`${"=".repeat(30)}`);
   console.log(m);
@@ -49,12 +42,6 @@ const showMenu = (menu, title) => {
   }
   console.log("");
 };
-
-function askQuestion(query) {
-  return new Promise((resolve) => {
-    rl.question(query, resolve);
-  });
-}
 
 function checkout(data) {
   console.log("");
