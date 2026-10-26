@@ -14,5 +14,3 @@ export async function askQuestion(query) {
     console.log("Sepertinya ada yang salah...");
   }
 }
-
-askQuestion("whats up");
