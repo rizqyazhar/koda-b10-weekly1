@@ -1,13 +1,11 @@
 import { menuMakanan, menuMinuman } from "./src/lib/getMenu.js";
-import {
-  askQuestion,
+import {askQuestion,
   inputPesanan,
   historyObject,
   checkout,
   showMessage,
   showRoute,
-  handleExit,
-} from "./src/lib/helper.js";
+  handleExit,} from "./src/lib/helper.js";
 
 const mainRoute = {
   1: "Menu",
@@ -27,6 +25,7 @@ async function main() {
     showMessage("Selamat Datang di PizzaBoxx");
     showRoute(mainRoute);
     const askMenu = await askQuestion("Ada yang bisa dibantu? ");
+    console.log(askMenu);
     const input = askMenu.trim();
     switch (input) {
       case "1":
