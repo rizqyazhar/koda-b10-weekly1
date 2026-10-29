@@ -1,3 +1,12 @@
+import {
+  askQuestion,
+  inputPesanan,
+  historyObject,
+  checkout,
+  showMessage,
+  showRoute,
+} from "./src/lib/helper.js";
+
 const mainRoute = {
   1: "Menu",
   2: "Riwayat Pesanan",
