@@ -103,13 +103,10 @@ export async function inputPesanan(menu, titleTable) {
 }
 
 export function historyObject(isi) {
+  const date = new Date();
   return {
     pesanan: isi,
-    waktuPesan: function () {
-      const date = new Date();
-      const getTime = date.toLocaleString().split(",");
-      return [getTime[0], getTime[1]];
-    },
+    waktuPesan: date
   };
 }
 
@@ -128,7 +125,8 @@ export function printHistory(history){
   console.log("Riwayat Pemesanan");
   console.log("");
   for (const item of history) {
-    console.log(`(${item.waktuPesan()[0]}) - ${item.waktuPesan()[1]}`);
+    const getTime = item.waktuPesan.toLocaleString().split(",");
+    console.log(`(${getTime[0]}) - ${getTime[1]}`);
     console.log("-------------------------------");
     item.pesanan.map((element) => {
       console.log(

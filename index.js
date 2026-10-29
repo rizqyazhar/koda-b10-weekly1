@@ -1,3 +1,4 @@
+import { getData } from "./src/lib/getData.js";
 import { menuMakanan, menuMinuman } from "./src/lib/getMenu.js";
 import {askQuestion,
   inputPesanan,
@@ -7,6 +8,7 @@ import {askQuestion,
   showRoute,
   handleExit,
   printHistory,} from "./src/lib/helper.js";
+import { recordHistory } from "./src/lib/recordHistory.js";
 
 const mainRoute = {
   1: "Menu",
@@ -46,7 +48,9 @@ async function main() {
         if (history.length === 0) {
           console.log("Belom ada riwayat pemesanan");
         } else {
-          printHistory(history);
+          recordHistory(history);
+          const getDataHistory = await getData("history.txt");
+          printHistory(await getDataHistory);
         }
         break;
       case "3":
