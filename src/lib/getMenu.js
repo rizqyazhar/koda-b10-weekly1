@@ -1,9 +1,9 @@
 import { getData } from "./getData.js";
 
-export async function menuMakanan() {
-  const getMenu = await getData();
+const menu = await getData();
 
-  const { pizza, pasta, other, appetizer, extraSauce } = getMenu.makanan;
+export async function menuMakanan() {
+  const { pizza, pasta, other, appetizer, extraSauce } = menu.makanan;
 
   const arrayMakanan = [
     ...pizza,
@@ -15,3 +15,11 @@ export async function menuMakanan() {
 
   return arrayMakanan;
 }
+
+export async function menuMinuman() {
+  const arrayMinuman = [...menu.minuman];
+  return arrayMinuman;
+}
+
+console.log(await menuMakanan());
+console.log(await menuMinuman());

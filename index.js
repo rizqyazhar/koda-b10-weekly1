@@ -18,12 +18,6 @@ const showRoute = (r) => {
   console.log("");
 };
 
-const { pizza, pasta, other, appetizer, extraSauce } = menu.makanan;
-
-const menuMakanan = [...pizza, ...pasta, ...other, ...appetizer, ...extraSauce];
-
-const menuMinuman = [...menu.minuman];
-
 const showMenu = (menu, title) => {
   console.log("");
   const judulLine = `${title} ${" ".repeat(20)} | Harga ${" ".repeat(12)} | Kode`;
