@@ -20,6 +20,3 @@ export async function menuMinuman() {
   const arrayMinuman = [...menu.minuman];
   return arrayMinuman;
 }
-
-console.log(await menuMakanan());
-console.log(await menuMinuman());
