@@ -5,7 +5,8 @@ import {askQuestion,
   checkout,
   showMessage,
   showRoute,
-  handleExit,} from "./src/lib/helper.js";
+  handleExit,
+  printHistory,} from "./src/lib/helper.js";
 
 const mainRoute = {
   1: "Menu",
@@ -45,21 +46,8 @@ async function main() {
         if (history.length === 0) {
           console.log("Belom ada riwayat pemesanan");
         } else {
-          console.log("");
-          console.log("Riwayat Pemesanan");
-          console.log("");
-          for (const item of history) {
-            console.log(`(${item.waktuPesan()[0]}) - ${item.waktuPesan()[1]}`);
-            console.log("-------------------------------");
-            item.pesanan.map((element) => {
-              console.log(
-                `${element.quantity.toString().padEnd(2, " ")}x ${element.name.padEnd(30, " ")} ${element.price.toLocaleString("id-ID")}`,
-              );
-            });
-            console.log("");
-          }
+          printHistory(history);
         }
-
         break;
       case "3":
         running = false;
