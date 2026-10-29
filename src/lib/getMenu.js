@@ -1,4 +1,4 @@
-import { getData } from "./getData";
+import { getData } from "./getData.js";
 
 export async function menuMakanan() {
   const getMenu = await getData();
