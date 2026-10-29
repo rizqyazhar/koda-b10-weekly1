@@ -1,3 +1,4 @@
+import { menuMakanan, menuMinuman } from "./src/lib/getMenu.js";
 import {
   askQuestion,
   inputPesanan,
@@ -5,6 +6,7 @@ import {
   checkout,
   showMessage,
   showRoute,
+  handleExit,
 } from "./src/lib/helper.js";
 
 const mainRoute = {
@@ -12,6 +14,9 @@ const mainRoute = {
   2: "Riwayat Pesanan",
   3: "Exit",
 };
+
+const makanan = await menuMakanan();
+const minuman = await menuMinuman();
 
 async function main() {
   let running = true;
@@ -25,15 +30,17 @@ async function main() {
     const input = askMenu.trim();
     switch (input) {
       case "1":
-        const pesananMakanan = await inputPesanan(menuMakanan, "Makanan");
-        pesanan = [...pesanan, ...pesananMakanan];
-        const pesananMinuman = await inputPesanan(menuMinuman, "Minuman");
-        pesanan = [...pesanan, ...pesananMinuman];
-        const addHistory = historyObject(pesanan);
+        {
+          const pesananMakanan = await inputPesanan(makanan, "Makanan");
+          pesanan = [...pesanan, ...pesananMakanan];
+          const pesananMinuman = await inputPesanan(minuman, "Minuman");
+          pesanan = [...pesanan, ...pesananMinuman];
+          const addHistory = historyObject(pesanan);
 
-        history = [...history, addHistory];
-        checkout(pesanan);
-        pesanan = [];
+          history = [...history, addHistory];
+          checkout(pesanan);
+          pesanan = [];
+        }
         break;
       case "2":
         if (history.length === 0) {
@@ -57,6 +64,7 @@ async function main() {
         break;
       case "3":
         running = false;
+        handleExit();
         break;
       default:
         console.log("Maaf belom ada menu tersebut");
@@ -65,14 +73,10 @@ async function main() {
       const pesanLagi = await askQuestion("Mau pesan lagi? (y/n) ");
       if (pesanLagi.toLowerCase() === "n") {
         running = false;
+        handleExit();
       }
     }
   }
 }
 
-const handleExit = () => {
-  console.log("Terima Kasih...");
-  return rl.close();
-};
-
-main().finally(() => handleExit());
+main();

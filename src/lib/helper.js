@@ -112,3 +112,13 @@ export function historyObject(isi) {
     },
   };
 }
+
+export function handleExit() {
+  console.log("Terima Kasih...");
+
+  const rl = readline.createInterface({
+    input,
+    output,
+  });
+  return rl.close();
+}
