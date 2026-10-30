@@ -125,8 +125,8 @@ export function printHistory(history){
   console.log("Riwayat Pemesanan");
   console.log("");
   for (const item of history) {
-    const getTime = item.waktuPesan.toLocaleString().split(",");
-    console.log(`(${getTime[0]}) - ${getTime[1]}`);
+    const getTime = item.waktuPesan;
+    console.log(`${getTime.toLocaleString()}`);
     console.log("-------------------------------");
     item.pesanan.map((element) => {
       console.log(
