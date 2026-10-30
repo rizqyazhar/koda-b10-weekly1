@@ -8,13 +8,7 @@ export async function recordHistory(history) {
     const filePath = path.join(process.cwd(), fileName);
     
     const getDataHistory = await getData(fileName);
-    const newHistory = [];
-
-    if (!getDataHistory) {
-      newHistory.push();
-    }
-    
-    newHistory.push(...getDataHistory, ...history);
+    const newHistory = [...getDataHistory || [], ...history];
 
     const content = JSON.stringify(newHistory, null, 2);
     await writeFile(filePath, content, "utf8");
