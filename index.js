@@ -40,17 +40,19 @@ async function main() {
           const addHistory = historyObject(pesanan);
 
           history = [...history, addHistory];
+          recordHistory(history);
           checkout(pesanan);
           pesanan = [];
         }
         break;
       case "2":
-        if (history.length === 0) {
-          console.log("Belom ada riwayat pemesanan");
-        } else {
-          recordHistory(history);
+        {
           const getDataHistory = await getData("history.txt");
-          printHistory(await getDataHistory);
+          if (!getDataHistory) {
+            console.log("Belom ada riwayat pemesanan");
+          } else {
+            printHistory(await getDataHistory);
+          }
         }
         break;
       case "3":

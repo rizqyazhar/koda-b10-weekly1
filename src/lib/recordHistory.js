@@ -1,9 +1,24 @@
 import {writeFile} from "node:fs/promises"; 
 import path from "node:path";
+import { getData } from "./getData.js";
 
 export async function recordHistory(history) {
-  const filePath = path.join(process.cwd(), "history.txt");
+  try {
+    const fileName = "history.txt";
+    const filePath = path.join(process.cwd(), fileName);
+    
+    const getDataHistory = await getData(fileName);
+    const newHistory = [];
 
-  const content = JSON.stringify(history, null, 2);
-  await writeFile(filePath, content, "utf8");
+    if (!getDataHistory) {
+      newHistory.push();
+    }
+    
+    newHistory.push(...getDataHistory, ...history);
+
+    const content = JSON.stringify(newHistory, null, 2);
+    await writeFile(filePath, content, "utf8");
+  } catch (err) {
+    console.error(err.message);
+  }
 }

@@ -9,10 +9,10 @@ export async function getData(fileName) {
     });
 
     if (!data.trim()) {
-      return "Belom ada data";
+      return null;
     }
 
-    const result = await JSON.parse(data);
+    const result = JSON.parse(data);
 
     return result;
   } catch (err) {
