@@ -1,6 +1,6 @@
 import { getData } from "./getData.js";
 
-const menu = await getData();
+const menu = await getData("db.txt");
 
 export async function menuMakanan() {
   const { pizza, pasta, other, appetizer, extraSauce } = menu.makanan;
